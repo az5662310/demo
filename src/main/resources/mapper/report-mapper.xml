@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.dao.ReportDao">
+
+    <resultMap id="infoBOResultMap" type="com.company.dao.pojo.InfoBO">
+        <result property="emp.empno" column="empno" jdbcType="INTEGER"/>
+        <result property="emp.ename" column="ename" jdbcType="VARCHAR"/>
+        <result property="emp.deptno" column="empdno" jdbcType="INTEGER"/>
+        <result property="emp.hiredate" column="hiredate" jdbcType="DATE"/>
+        <result property="dept.deptno" column="dno" jdbcType="INTEGER"/>
+        <result property="dept.dname" column="dname" jdbcType="VARCHAR"/>
+        <result property="dept.loc" column="loc" jdbcType="VARCHAR"/>
+
+    </resultMap>
+
+    <select id="findEnameDname" resultType="com.company.dao.pojo.EmpDeptDTO">
+        select  e.empno,e.ename,d.dname from t_emp e  left join t_dept d on  e.deptno=d.deptno
+    </select>
+    <select id="findByEnameDname" parameterType="map" resultType="com.company.dao.pojo.EmpDeptDTO">
+               select e.hiredate, e.empno,e.ename,d.dname from t_emp e  left join t_dept d on  e.deptno=d.deptno where e.hiredate between #{begin} and #{end}
+
+    </select>
+    <select id="findInfoBo" parameterType="com.company.dao.pojo.DateVO" resultMap="infoBOResultMap">
+        select
+        e.empno,
+        e.ename,
+        e.deptno empdno,
+        e.hiredate,
+        d.deptno dno,
+        d.dname,
+        d.loc
+        from
+        t_emp e
+        LEFT JOIN t_dept d ON e.deptno=d.deptno where e.hiredate between #{begin} and #{end}
+    </select>
+</mapper>

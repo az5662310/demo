@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.dao.EmpDao">
+    <sql id="empColumn">empno,ename,job,mgr,hiredate,sal,comm,deptno</sql>
+    <update id="update" parameterType="com.company.dao.pojo.Emp">
+        update t_emp
+        <set>
+            <if test="ename!= null">
+                ename=#{ename},
+            </if>
+            <if test="job!= null">
+                job=#{job},
+            </if>
+            <if test="mgr!= null">
+                mgr=#{mgr},
+            </if>
+            <if test="hiredate!= null">
+                hiredate=#{hiredate},
+            </if>
+            <if test="sal!= null">
+                sal=#{sal},
+            </if>
+            <if test="comm!= null">
+                comm=#{comm},
+            </if>
+            <if test="deptno!= null">
+                deptno=#{deptno}
+            </if>
+        </set>
+        where empno=#{empno}
+    </update>
+    <select id="findByName" resultType="com.company.dao.pojo.Emp">
+        select<include refid="empColumn"/>from t_emp
+        <where>
+        <if test="username!=null">
+            and ename like concat('%',#{username},'%')
+        </if>
+        <if test="sal !=null">
+        and sal <![CDATA[<]]>  #{sal}
+        </if >
+        </where>
+    <!--  <trim prefix="where " prefixOverrides="and|or">
+            <if test="username!=null">
+                and ename like concat('%',#{username},'%')
+            </if>
+            <if test="sal !=null">
+                and sal <![CDATA[<]]>  #{sal}
+            </if >
+      </trim>-->
+    </select>
+    <select id="findByDeptArray"     resultType="com.company.dao.pojo.Emp">
+     select  <include refid="empColumn"/> from t_emp where deptno in
+        <foreach collection="array"  index="index" open="(" close=")" separator="," item="deptno">
+            #{deptno}
+        </foreach>
+    </select>
+    <select id="findByDeptList" resultType="com.company.dao.pojo.Emp">
+        select  <include refid="empColumn"/> from t_emp where deptno in
+        <foreach collection="list"  index="index" open="(" close=")" separator="," item="deptno">
+            #{deptno}
+        </foreach>
+    </select>
+    <select id="findByCon" resultType="com.company.dao.pojo.Emp">
+        select <include refid="empColumn" />from t_emp where 1=1
+        <choose>
+             <when test="empno ! = null">
+                 and empno=#{empno}
+             </when>
+            <when test="ename ! = null">
+                and ename like concat('%',#{ename},'%')
+            </when>
+            <otherwise>
+                and sal>10000
+            </otherwise>
+        </choose>
+    </select>
+</mapper>
