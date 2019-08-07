@@ -59,11 +59,11 @@ for(Emp e:emps){
 
     @Test
     public void findByCon() {
-        List<Emp> emp1 =empDao.findByCon(null,"a");
+        /*List<Emp> emp1 =empDao.findByCon(null,"a");
         System.err.println("*****************"+emp1.size());
         List<Emp> emp2 =empDao.findByCon(null,null);
         System.err.println("*****************"+emp2.size());
         List<Emp> emp3=empDao.findByCon(1001,"haohao");
-        System.err.println(emp3);
+        System.err.println(emp3);*/
     }
 }
