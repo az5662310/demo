@@ -18,6 +18,9 @@ public class User {
 
     private Date birthday;
 
-
-
+    public User(String username, BigDecimal sal, Date birthday) {
+        this.username = username;
+        this.sal = sal;
+        this.birthday = birthday;
+    }
 }
